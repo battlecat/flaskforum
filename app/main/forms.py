@@ -17,8 +17,7 @@ class PostForm(Form):
     submit = SubmitField('Submit')
     
 class LoginForm(Form):
-    email = StringField(u'用户名或Email', validators=[Required(), Length(1, 64),
-                                             Email()])
+    username = StringField(u'用户名或Email', validators=[Required(), Length(1, 64)])
     password = PasswordField(u'密码', validators=[Required()])
     remember_me = BooleanField(u'记住我')
     submit = SubmitField(u'提交')
