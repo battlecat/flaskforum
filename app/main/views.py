@@ -5,7 +5,7 @@ Created on Sun Mar 13 22:24:13 2016
 @author: david
 """
 
-from flask import render_template, redirect, url_for, abort, flash, request
+from flask import render_template, redirect, url_for, abort, flash, request, current_app
 from . import main
 from .forms import PostForm, LoginForm, RegistrationForm, ChangePasswordForm, EditProfileForm
 from flask.ext.login import current_user, login_user, login_required, logout_user
@@ -15,6 +15,7 @@ from .. import db
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
+    
     if form.validate_on_submit():
         if not current_user.is_authenticated:
             flash(u'请先登录')
@@ -22,8 +23,12 @@ def index():
         post = Post(body=form.body.data, author=current_user._get_current_object())
         db.session.add(post)
         return redirect(url_for('.index'))
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('index.html', form=form, posts=posts)
+    page = request.args.get('page', 1, type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out=False)
+    posts = pagination.items
+    return render_template('index.html', form=form, posts=posts, pagination=pagination)
     
 
 @main.route('/user/<username>')
@@ -96,3 +101,14 @@ def edit_profile():
     form.location.data = current_user.location
     form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', form=form)
+    
+
+@main.route('/post/<int:id>')
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post.html', posts=[post])
+
+
+
+
+
