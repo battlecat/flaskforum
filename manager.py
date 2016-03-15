@@ -10,8 +10,17 @@ from app import create_app, db
 from app.models import User, Post
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
+import re
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+
+def subImg(name):
+    re_img = re.compile('<img.*?/>')
+    return re.sub(re_img, u'[图片]', name)
+    
+env=app.jinja_env
+env.filters['subImg'] = subImg
+
 manager = Manager(app)
 migrate = Migrate(app, db)
 

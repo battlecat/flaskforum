@@ -2,3 +2,5 @@ venv/*
 *.pyc
 *.sqlite
 qustion.txt
+test.py
+app/main/upload

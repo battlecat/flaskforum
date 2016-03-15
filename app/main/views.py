@@ -129,7 +129,22 @@ def edit(id):
     if form.validate_on_submit():
         post.body = form.body.data
         db.session.add(post)
-        flash('The post has been updated.')
+        flash('文章已经被修改')
         return redirect(url_for('.post', id=post.id))
     form.body.data = post.body
+    return render_template('edit_post.html', form=form)
+
+
+@main.route('/edit-new-post', methods=['GET', 'POST'])
+@login_required
+def edit_new():
+    if not current_user.is_authenticated:
+        flash(u'请先登录')
+        return redirect(url_for('main.login'))
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.body.data, author=current_user._get_current_object())
+        db.session.add(post)
+        flash(u'添加文章成功!')
+        return redirect(url_for('.edit', id=post.id))
     return render_template('edit_post.html', form=form)
