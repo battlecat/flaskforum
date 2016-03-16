@@ -12,18 +12,27 @@
                     <a href="{{ url_for('.user', username=post.author.username) }}">{{ post.author.username }}</a>
                 </div>
                 <div class="post-body">
-                    {% if post.body_html %}
-                    {{ post.body_html | safe }}
-                {% else %}
-                    {{ post.body | subImg | striptags | truncate(200, True) }}
-                {% endif %}
+                    {% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body | subImg | striptags | truncate(200, True) }} {% endif %}
                 </div>
                 <div class="post-footer">
                     {% if current_user == post.author %}
                     <a href="{{ url_for('.edit', id=post.id) }}">
                         <span class="label label-primary">编辑文章</span>
                     </a>
-                {% endif %}
+                    <script language="javascript">
+                    function del() {
+                        var msg = "您真的确定要删除吗？\n\n请确认！";
+                        if (confirm(msg) == true) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    </script>
+                    <a href="{{ url_for('.delete', id=post.id) }}" onclick="javascript:return del();">
+                        <span class="label label-primary">删除文章</span>
+                    </a>
+                    {% endif %}
                     <a href="{{ url_for('.post', id=post.id) }}">
                         <span class="label label-default">查看文章</span>
                     </a>
@@ -35,6 +44,9 @@
 </div>
 <div class="sidebar-view">
     <div class="widget">
-        <a href="{{ url_for('main.edit_new') }}" class="button button--green">新增主题</a>
+        <<a href="{{ url_for('main.edit_new') }}" class="button button--green">新增主题</a>
+    </div>
+    <div class="widget">
+        <<a href="#" class="button button--green">返回顶部</a>
     </div>
 </div>

@@ -4,6 +4,8 @@
 
 {% block title %}SYSU论坛{% endblock %}
 
+
+
 {% block header %}
 <div class="header">
 	<div class="header__cover cover">
@@ -18,8 +20,8 @@
 		<div class="container">
 			<nav class="header__nav nav">
 				<a href="{{ url_for('main.index') }}" class="nav__item v-link-active">文章列表</a>
-				<a href="{{ url_for('main.index') }}" class="nav__item">关于本站</a>
-				<a href="/c/" class="nav__item">bug及意见反馈</a>
+				<a href="{{ url_for('main.about') }}" class="nav__item">关于本站</a>
+				<a href="{{ url_for('main.about') }}" class="nav__item">bug及意见反馈</a>
 			</nav>
 		</div>
 	</div>
@@ -28,22 +30,9 @@
 
 
 {% block page_content %}
-{#
-<div class="page-header">
-	<h1>
-		Hello, 
-    {% if current_user.is_authenticated %}{{ current_user.username }}
-	</h1>
-	<div>{{ wtf.quick_form(form) }}</div>
-	{% else %}匿名用户
-    {% endif %}
-</h1>
-</div>
-
-    {% if current_user.can(Permission.WRITE_ARTICLES) %}
-    {{ wtf.quick_form(form) }}
-    {% endif %}
-#}
+{% if pagination %}
+<div class="pagination">{{ macros.pagination_widget(pagination, '.index') }}</div>
+{% endif %}
 {% include '_posts.html' %}
 {% if pagination %}
 <div class="pagination">{{ macros.pagination_widget(pagination, '.index') }}</div>

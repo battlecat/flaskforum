@@ -29,6 +29,9 @@
                 <a href="{{ url_for('.edit', id=post.id) }}">
                     <span class="label label-primary">编辑文章</span>
                 </a>
+                <a href="{{ url_for('.delete', id=post.id) }}">
+                    <span class="label label-primary">删除文章</span>
+                </a>
                 {% endif %}
 
             </div>

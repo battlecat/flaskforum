@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -39,6 +39,7 @@
                         {{ current_user.username }} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('main.edit_profile') }}">修改资料</a></li>
                         <li><a href="{{ url_for('main.change_password') }}">修改密码</a></li>
                         <li><a href="{{ url_for('main.logout') }}">退出</a></li>
                     </ul>
@@ -54,7 +55,10 @@
 {% endblock %}
 
 {% block content %}
-{% block header %}{% endblock %}
+{% block header %}
+<p> </p>
+<p> 占位符 </p>
+{% endblock %}
 
 <div class="container">
     {% for message in get_flashed_messages() %}
