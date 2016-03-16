@@ -35,8 +35,9 @@ div.post-thumbnail {
     position: absolute;
 }
 div.post-content {
-    margin-left: 48px;
-    min-height: 48px;
+    margin-left:80px;
+    min-height: 80px;
+    font-size : 1.2em;
 }
 div.post-footer {
     text-align: right;
@@ -104,4 +105,145 @@ div.flask-pagedown-preview h3 {
 }
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
+}
+
+
+.main-view {
+    float: left;
+    width: 760px
+}
+
+.sidebar-view {
+    float: right;
+    width: 300px
+}
+
+.widget {
+    color: #999;
+    margin-bottom: 20px
+}
+
+.widget .widget-content,
+.widget h2,
+.widget h3,
+.widget h4 {
+    margin: 0
+}
+
+.widget .widget-title {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    text-transform: uppercase;
+    border-bottom: 1px solid #eee
+}
+
+.button {
+    display: inline-block;
+    background-color: #42b983;
+    text-decoration: none;
+    padding: 0 24px;
+    color: #fff;
+    font: normal 500 13px/32px Lucida Grande, Helvetica Neue, Arial, sans-serif;
+    border-radius: 32px;
+    border: none
+}
+
+.button--green {
+    background-color: #42b983
+}
+
+.container {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.clearfix:after,
+.container:after,
+.item-container:after {
+    content: '';
+    display: table;
+    clear: both
+}
+
+.nav__item {
+    display: inline-block;
+    text-decoration: none;
+    color: #656465;
+    padding: 12px;
+    transition: box-shadow .2s ease-out
+}
+
+.nav__item.v-link-active-exact {
+    box-shadow: 0 -1px 0 #4bd094 inset
+}
+
+.nav__item:hover {
+    box-shadow: 0 -3px 0 #4bd094 inset
+}
+
+.cover {
+    position: relative;
+    color: #fff;
+    background: rgba(0, 0, 0, .8) no-repeat center center;
+    background-size: cover
+}
+
+.cover__text {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 20px 0;
+    background-image: linear-gradient(rgba(0, 0, 0, .01), rgba(0, 0, 0, .35))
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 24px;
+    line-height: 1
+}
+
+.header p {
+    margin: 0;
+    line-height: 1.5
+}
+
+.header__cover {
+    height: 240px;
+    background-image: url(https://dn-yuehu.qbox.me/cover/editors-picks/q8Up172j5piiqQvu.jpg/cover)
+}
+
+.header__bottom {
+    background-color: #fff;
+    box-shadow: 0 1px 0 hsla(0, 0%, 39%, .08) inset;
+    border-bottom: 1px solid hsla(0, 0%, 39%, .2)
+}
+
+.header__nav {
+    float: left
+}
+
+.header__button {
+    float: right;
+    margin-top: 8px
+}
+
+.header__nav {
+    float: left
+}
+
+.header__button {
+    float: right;
+    margin-top: 8px
+}
+
+.footer {
+    padding: 16px 0 24px;
+    border-top: 1px solid #eee;
+    color: #999;
+    font-size: 14px;
+    line-height: 1.2
 }

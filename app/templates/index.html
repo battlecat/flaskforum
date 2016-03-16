@@ -4,28 +4,48 @@
 
 {% block title %}SYSU论坛{% endblock %}
 
+{% block header %}
+<div class="header">
+	<div class="header__cover cover">
+		<div class="cover__text">
+			<div class="container">
+				<h2>Welcome to SYSUbbs</h2>
+				<p></p>
+			</div>
+		</div>
+	</div>
+	<div class="header__bottom">
+		<div class="container">
+			<nav class="header__nav nav">
+				<a href="{{ url_for('main.index') }}" class="nav__item v-link-active">文章列表</a>
+				<a href="{{ url_for('main.index') }}" class="nav__item">关于本站</a>
+				<a href="/c/" class="nav__item">bug及意见反馈</a>
+			</nav>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
 {% block page_content %}
+{#
 <div class="page-header">
-    <h1>Hello, 
-    {% if current_user.is_authenticated %}{{ current_user.username }}</h1>
-    <div>
-        {{ wtf.quick_form(form) }}
-    </div>
-    {% else %}匿名用户
+	<h1>
+		Hello, 
+    {% if current_user.is_authenticated %}{{ current_user.username }}
+	</h1>
+	<div>{{ wtf.quick_form(form) }}</div>
+	{% else %}匿名用户
     {% endif %}
-    </h1>
+</h1>
 </div>
 
-{#
     {% if current_user.can(Permission.WRITE_ARTICLES) %}
     {{ wtf.quick_form(form) }}
     {% endif %}
 #}
 {% include '_posts.html' %}
 {% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.index') }}
-</div>
+<div class="pagination">{{ macros.pagination_widget(pagination, '.index') }}</div>
 {% endif %}
 {% endblock %}
-

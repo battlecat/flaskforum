@@ -4,3 +4,4 @@ venv/*
 qustion.txt
 test.py
 app/main/upload
+app/static/background.jpg
