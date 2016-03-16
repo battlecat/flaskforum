@@ -8,9 +8,9 @@ Created on Sun Mar 13 22:24:13 2016
 from flask import render_template, redirect, url_for, abort, flash, request, current_app
 from . import main
 from .forms import PostForm, LoginForm, RegistrationForm, ChangePasswordForm,\
-         EditProfileForm
+         EditProfileForm, CommentForm
 from flask.ext.login import current_user, login_user, login_required, logout_user
-from ..models import Post, User
+from ..models import Post, User, Comment
 from .. import db
 
 
@@ -106,10 +106,27 @@ def edit_profile():
     return render_template('edit_profile.html', form=form)
     
 
-@main.route('/post/<int:id>')
+@main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
     post = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[post])
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        flash(u'评论成功')
+        return redirect(url_for('.post', id=post.id, page=-1))
+    page = request.args.get('page', 1, type=int)
+    if page == -1:
+        page = (post.comments.count() - 1) // \
+            current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        error_out=False)
+    comments = pagination.items
+    return render_template('post.html', posts=[post], form=form,
+                           comments=comments, pagination=pagination)
 
 
 @main.route('/ckupload/', methods=['POST', 'OPTIONS'])
@@ -129,7 +146,7 @@ def edit(id):
     if form.validate_on_submit():
         post.body = form.body.data
         db.session.add(post)
-        flash('文章已经被修改')
+        flash(u'文章已经被修改')
         return redirect(url_for('.post', id=post.id))
     form.body.data = post.body
     return render_template('edit_post.html', form=form)
@@ -146,5 +163,6 @@ def edit_new():
         post = Post(body=form.body.data, author=current_user._get_current_object())
         db.session.add(post)
         flash(u'添加文章成功!')
-        return redirect(url_for('.edit', id=post.id))
+        return redirect(url_for('main.index'))
+ #       return redirect(url_for('.edit', id=post.id))
     return render_template('edit_post.html', form=form)

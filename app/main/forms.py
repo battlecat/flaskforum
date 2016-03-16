@@ -110,3 +110,6 @@ class PostForm(Form, CKEditor):
     body = TextAreaField(u'编辑你的主题')
     submit = SubmitField('submit')
     
+class CommentForm(Form):
+    body = StringField(u'添加你的评论', validators=[Required()])
+    submit = SubmitField('Submit')

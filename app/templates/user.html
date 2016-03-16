@@ -22,7 +22,7 @@
 #}
         {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
         <p>加入时间 {{ moment(user.member_since).format('L') }}. 最近一次登录 {{ moment(user.last_seen).fromNow() }}.</p>
-        <p>{{ user.posts.count() }} blog posts.</p>
+        <p>总共发表 {{ user.posts.count() }} 篇文章.</p>
         <p>
             {% if user == current_user %}
             <a class="btn btn-default" href="{{ url_for('main.edit_profile') }}">编辑个人资料</a>
