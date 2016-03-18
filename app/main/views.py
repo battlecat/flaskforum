@@ -14,6 +14,7 @@ from ..models import Post, User, Comment
 from .. import db
 import os
 from werkzeug import secure_filename
+from PIL import Image
 
 
 
@@ -250,9 +251,12 @@ def allowed_file(filename):
 def change_avatar():
     if request.method == 'POST':
         file = request.files['file']
+        size = (40, 40)
+        im = Image.open(file)
+        im.thumbnail(size)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(main.static_folder, 'avatar', filename))
+            im.save(os.path.join(main.static_folder, 'avatar', filename))
             current_user.new_avatar_file = url_for('main.static', filename='%s/%s' % ('avatar', filename))
             current_user.is_avatar_default = False
             flash(u'头像修改成功')
