@@ -28,6 +28,8 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     avatar_hash = db.Column(db.String(32))
+    is_avatar_default = db.Column(db.Boolean, default=True)
+    new_avatar_file = db.Column(db.String(32))
     about_me = db.Column(db.Text())
     location = db.Column(db.String(64))
     signature = db.Column(db.Text())
@@ -55,14 +57,26 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
         
     def gravatar(self, size=100, default='identicon', rating='g'):
-        if request.is_secure:
-            url = 'https://secure.gravatar.com/avatar'
-        else:
-            url = 'http://www.gravatar.com/avatar'
-        hash = self.avatar_hash or hashlib.md5(
-            self.username.encode('utf-8')).hexdigest()
-        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
-            url=url, hash=hash, size=size, default=default, rating=rating)
+        if self.is_avatar_default:
+            if request.is_secure:
+                url = 'https://secure.gravatar.com/avatar'
+            else:
+                url = 'http://www.gravatar.com/avatar'
+            hash = self.avatar_hash or hashlib.md5(
+                self.username.encode('utf-8')).hexdigest()
+            return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+                url=url, hash=hash, size=size, default=default, rating=rating)
+        url = self.new_avatar_file
+        return '{url}?s={size}&d={default}&r={rating}'.format(
+                url=url, size=size, default=default, rating=rating)
+        
+
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.username is not None and self.avatar_hash is None:
+            self.avatar_hash = hashlib.md5(
+                self.username.encode('utf-8')).hexdigest()
+        self.followed.append(Follow(followed=self))
 
     @staticmethod
     def generate_fake(count=100):

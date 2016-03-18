@@ -12,6 +12,8 @@ from .forms import PostForm, LoginForm, RegistrationForm, ChangePasswordForm,\
 from flask.ext.login import current_user, login_user, login_required, logout_user
 from ..models import Post, User, Comment
 from .. import db
+import os
+from werkzeug import secure_filename
 
 
 
@@ -236,3 +238,24 @@ def followed_by(username):
     return render_template('followers.html', user=user, title=u"关注的人",
                            endpoint='.followed_by', pagination=pagination,
                            follows=follows)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in set(['png', 'jpg', 'jpeg', 'gif'])
+
+
+@main.route('/edit-avatar', methods=['GET', 'POST'])
+@login_required
+def change_avatar():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(main.static_folder, 'avatar', filename))
+            current_user.new_avatar_file = url_for('main.static', filename='%s/%s' % ('avatar', filename))
+            current_user.is_avatar_default = False
+            flash(u'头像修改成功')
+            return redirect(url_for('.user', username=current_user.username))
+    return render_template('change_avatar.html')
+
