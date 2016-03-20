@@ -1,9 +1,11 @@
 .profile-thumbnail {
     position: absolute;
+    width : 10%;
 }
 .profile-header {
     min-height: 260px;
-    margin-left: 280px;
+    margin-left: 200px;
+    width : 90%;
 }
 div.post-tabs {
     margin-top: 16px;
