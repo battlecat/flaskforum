@@ -1,11 +1,14 @@
 .profile-thumbnail {
     position: absolute;
-    width : 10%;
+}
+
+.profile-thumbnail-usr {
+    position: absolute;
+    width: 8%;
 }
 .profile-header {
     min-height: 260px;
     margin-left: 200px;
-    width : 90%;
 }
 div.post-tabs {
     margin-top: 16px;

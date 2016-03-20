@@ -265,6 +265,8 @@ def change_avatar():
             im.save(os.path.join(main.static_folder, 'avatar', filename))
             current_user.new_avatar_file = url_for('main.static', filename='%s/%s' % ('avatar', filename))
             current_user.is_avatar_default = False
+            db.session.add(current_user)
+            db.session.commit()
             flash(u'头像修改成功')
             return redirect(url_for('.user', username=current_user.username))
     return render_template('change_avatar.html')
