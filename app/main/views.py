@@ -76,6 +76,7 @@ def change_password():
         if current_user.verify_password(form.old_password.data):
             current_user.password = form.password.data
             db.session.add(current_user)
+            db.session.commit()
             flash(u'您的密码已经更新')
             return redirect(url_for('main.index'))
         else:
@@ -92,6 +93,7 @@ def edit_profile():
         current_user.location = form.location.data
         current_user.about_me = form.about_me.data
         db.session.add(current_user)
+        db.session.commit()
         flash(u'你的个人资料已经更新')
         return redirect(url_for('.user', username=current_user.username))
     form.signature.data = current_user.signature
@@ -109,6 +111,7 @@ def post(id):
                           post=post,
                           author=current_user._get_current_object())
         db.session.add(comment)
+        db.session.commit()
         flash(u'评论成功')
         return redirect(url_for('.post', id=post.id, page=-1))
     page = request.args.get('page', 1, type=int)
@@ -140,6 +143,7 @@ def edit(id):
     if form.validate_on_submit():
         post.body = form.body.data
         db.session.add(post)
+        db.session.commit()
         flash(u'文章已经被修改')
         return redirect(url_for('.post', id=post.id))
     form.body.data = post.body
@@ -156,6 +160,7 @@ def edit_new():
     if form.validate_on_submit():
         post = Post(body=form.body.data, author=current_user._get_current_object())
         db.session.add(post)
+        db.session.commit()
         flash(u'添加文章成功!')
         return redirect(url_for('main.index'))
  #       return redirect(url_for('.edit', id=post.id))
@@ -169,6 +174,7 @@ def delete(id):
     if current_user != post.author:
         abort(403)
     db.session.delete(post)
+    db.session.commit()
     flash(u'文章已经被删除')
     return redirect(url_for('main.index'))
     
