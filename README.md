@@ -2,7 +2,9 @@
 
 Based on David-Guo's flask-forum,please see https://github.com/David-Guo/flaskforum.git
 
-This is  a full function forum/bbs system include insert picture or attachment of any type file.It can be very simple and easy to be installed
+This is  a full function forum/bbs system include insert picture or attachment of any type file.
+
+It can be very simple and easy to be installed
 
 # How to install and run it under Ubuntu 14.04?
 
@@ -43,7 +45,7 @@ This is  a full function forum/bbs system include insert picture or attachment o
     $ python manager.py shell
     >>> db.create_all()
     
-    Please repeat the step 2 and to change the mysql root password to 123456 if spawned any erro about access dennied problem.
+Please repeat the step 2 and to change the mysql root password to 123456 if spawned any erro about access dennied problem.
     
 ## 7.Run server
 
